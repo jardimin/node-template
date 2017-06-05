@@ -1,0 +1,46 @@
+header.navbar-fixed
+  nav
+    .nav-wrapper
+      a.brand-logo(href='/')
+        i.fa.fa-cube
+        | Nome do Projeto
+      ul.right.hide-on-med-and-down
+        li(class=(title == 'Home') ? 'active' : undefined)
+          a(href='/') Home
+        li(class=(title == 'API Examples') ? 'active' : undefined)
+          a.dropdown-button(href='#', data-toggle='dropdown', data-activates='api-menu', data-beloworigin='true') 
+            | API Examples
+            i.material-icons.right arrow_drop_down
+          ul#api-menu.dropdown-content
+            li
+              a(href='/api/twitter') Twitter
+            li
+              a(href='/api/facebook') Facebook
+            li
+              a(href='/api/paypal') Paypal
+            li
+              a(href='/api/google-maps') Google Maps
+            li
+              a(href='/api/upload') File Upload
+            li
+              a(href='/contact') Contact Email
+        if !user
+          li(class=(title == 'Login') ? 'active' : undefined)
+            a(href='/login') Login
+          li(class=(title == 'Create Account') ? 'active' : undefined)
+            a(href='/signup') Create Account
+        else
+          li(class=(title == 'Account Management') ? 'active' : undefined)
+            a.dropdown-button(href='#', data-toggle='dropdown', data-activates='user-menu', data-beloworigin='true', style='height: 64px;')
+              if user.profile.picture
+                img.responsive-img.circle(src=user.profile.picture, style='width: 45px; margin: 10px 10px 0 0; float: left;')
+              else
+                img.responsive-img.circle(src=user.gravatar(60), style='width: 45px; margin: 10px 10px 0 0; float: left;')
+              span(style='float: left;')= user.profile.name || user.email || user.id
+              i.material-icons.right arrow_drop_down
+            ul#user-menu.dropdown-content
+              li
+                a(href='/account') My Account
+              li.divider
+              li
+                a(href='/logout') Logout
