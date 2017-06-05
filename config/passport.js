@@ -1,10 +1,11 @@
 const passport = require('passport');
+const mongoose = require('mongoose');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const User = require('../app/models/User');
+const User = mongoose.model('User');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -26,6 +27,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
       return done(null, false, { msg: `O email ${email} não foi achado.` });
     }
     user.comparePassword(password, (err, isMatch) => {
+      console.log('err: ', err);
       if (err) { return done(err); }
       if (isMatch) {
         return done(null, user);

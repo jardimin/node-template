@@ -19,8 +19,8 @@ const blogSchema = new mongoose.Schema({
  * Password hash middleware.
  */
 blogSchema.pre('save', function save(next) {
-  const user = this;
-  if (!user.isModified('urlized')) { return next(); }
+  const blog = this;
+  if (!blog.isModified('urlized')) { return next(); }
   this.urlized = slug.format(this.title);
   next();
 });
@@ -88,6 +88,6 @@ blogSchema.statics = {
 };
 
 
-const User = mongoose.model('User', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
-module.exports = User;
+module.exports = Blog;

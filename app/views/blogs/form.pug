@@ -1,0 +1,37 @@
+extends ../layouts/default
+
+block styles
+  
+
+block content
+  - var action = '/blog'
+  - action += article.isNew? '' : '/' + article.id
+  h3 Blog
+  .row
+    form.col.s12(method="post", action=action, enctype="multipart/form-data", role="form")
+      input(type='hidden', name='_csrf', value=_csrf)
+
+      - if (!blog.isNew)
+        input(type="hidden", name="_method", value="PUT")
+
+      .row
+        .input-field.col.s12
+          input.validate(type='text', value=blog.title, name='title', id='title', autofocus, required)
+          label(for='title') Título
+      .row
+        .input-field.col.s12
+          textarea.validate.materialize-textarea(name='body', id='body', required)
+          label(for='body') Texto...
+      .row
+        .input-field.col.s12.chips
+      .row
+        .input-field.col.s12
+          button.btn.waves-effect.waves-light(type='submit')
+            | Signup
+            i.material-icons.right send
+
+block scripts
+  script(type='text/javascript').
+    $(document).ready(function() {
+      $('.chips')..material_chip();
+    })

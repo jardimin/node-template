@@ -5,9 +5,22 @@ header.navbar-fixed
         i.fa.fa-cube
         | Nome do Projeto
       ul.right.hide-on-med-and-down
-        li(class=(title == 'Home') ? 'active' : undefined)
-          a(href='/') Home
-        li(class=(title == 'API Examples') ? 'active' : undefined)
+        li
+          a.dropdown-button(href='#', data-toggle='dropdown', data-activates='pages-menu', data-beloworigin='true') 
+            | Pages
+            i.material-icons.right arrow_drop_down
+          ul#pages-menu.dropdown-content
+            li
+              a(href='/') Home
+            li
+              a(href='/blog') Blog Index
+            li
+              a(href='/blog/novo') Blog New
+            li
+              a(href='/user/eu') User Profile
+            li
+              a(href='/dashboard') Dashboard
+        li
           a.dropdown-button(href='#', data-toggle='dropdown', data-activates='api-menu', data-beloworigin='true') 
             | API Examples
             i.material-icons.right arrow_drop_down

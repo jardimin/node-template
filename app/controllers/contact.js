@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
  * Contact form page.
  */
 exports.getContact = (req, res) => {
-  res.render('contact', {
+  res.render('pages/contact', {
     title: 'Contact'
   });
 };

@@ -18,6 +18,10 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
+const fs = require('fs');
+const join = require('path').join;
+
+const models = join(__dirname, 'app/models');
 // const multer = require('multer');
 
 // const upload = multer({ dest: path.join(__dirname, 'uploads') });
@@ -34,6 +38,13 @@ dotenv.load({ path: '.env.example' });
 // const userController = require('./app/controllers/user');
 // const apiController = require('./app/controllers/api');
 // const contactController = require('./app/controllers/contact');
+
+/**
+ * Bootstrap models
+ */
+fs.readdirSync(models)
+  .filter(file => ~file.search(/^[^\.].*\.js$/))
+  .forEach(file => require(join(models, file)));
 
 /**
  * API keys and Passport configuration.

@@ -20,19 +20,24 @@ const upload = multer({ dest: path.join(__dirname, '../public/uploads') });
  * Expose
  */
 
-module.exports = function (app, passportConfig, passport) {
-
+module.exports = (app, passportConfig, passport) => {
   /**
    * Pages routes.
    */
   app.get('/', pagesController.index);
   app.get('/user/:id', pagesController.userShow);
-  app.get('/blog', blogController.blogIndex);
+  app.get('/blog', blogController.index);
   app.param('urlized', blogController.load);
-  app.get('/blog/:urlized', blogController.blogShow);
-  app.get('/blog/novo', passportConfig.isAuthenticated, blogController.blogIndex);
-  app.get('/blog/:urlized/edit', passportConfig.isAuthenticated, blogController.blogEdit);
+  app.get('/blog/novo', passportConfig.isAuthenticated, blogController.new);
+  app.get('/blog/:urlized', blogController.show);
+  app.get('/blog/:urlized/edit', passportConfig.isAuthenticated, blogController.edit);
   app.get('/dashboard', passportConfig.isAuthenticated, passportConfig.isAdmin, pagesController.dashboard);
+
+  /**
+   * Blog routes.
+   */
+  app.post('/blog', passportConfig.isAuthenticated, blogController.create);
+  app.put('/articles/:id', passportConfig.isAuthenticated, blogController.update);
 
   /**
    * User routes.
@@ -82,4 +87,5 @@ module.exports = function (app, passportConfig, passport) {
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
     res.redirect(req.session.returnTo || '/');
   });
+
 };
