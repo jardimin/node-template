@@ -20,7 +20,7 @@ const blogSchema = new mongoose.Schema({
  */
 blogSchema.pre('save', function save(next) {
   const blog = this;
-  if (!blog.isModified('urlized')) { return next(); }
+  if (!blog.isModified('title')) { return next(); }
   this.urlized = slug.format(this.title);
   next();
 });

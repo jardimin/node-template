@@ -12,9 +12,9 @@ const assign = Object.assign;
 /**
  * Load
  */
-exports.load = async(function* (req, res, next, id) {
+exports.load = async(function* (req, res, next, urlized) {
   try {
-    req.blog = yield Blog.load(id);
+    req.blog = yield Blog.load(urlized);
     if (!req.blog) return next(new Error('blog not found'));
   } catch (err) {
     return next(err);
@@ -66,7 +66,7 @@ exports.create = async(function* (req, res) {
   blog.user = req.user;
   try {
     yield blog.save();
-    respondOrRedirect({ req, res }, `/blogs/${blog._id}`, blog, {
+    respondOrRedirect({ req, res }, `/blog/${blog.urlized}`, blog, {
       type: 'success',
       text: 'Successfully created blog!'
     });
@@ -97,7 +97,7 @@ exports.update = async(function* (req, res) {
   assign(blog, only(req.body, 'title body tags'));
   try {
     yield blog.save();
-    respondOrRedirect({ res }, `/blogs/${blog._id}`, blog);
+    respondOrRedirect({ res }, `/blog/${blog.urlized}`, blog);
   } catch (err) {
     respond(res, 'blogs/edit', {
       title: `Edit ${blog.title}`,
@@ -122,7 +122,7 @@ exports.show = function (req, res) {
  */
 exports.destroy = async(function* (req, res) {
   yield req.blog.remove();
-  respondOrRedirect({ req, res }, '/blogs', {}, {
+  respondOrRedirect({ req, res }, '/blog', {}, {
     type: 'info',
     text: 'Deleted successfully'
   });

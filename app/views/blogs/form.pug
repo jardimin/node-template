@@ -5,10 +5,10 @@ block styles
 
 block content
   - var action = '/blog'
-  - action += article.isNew? '' : '/' + article.id
+  - action += blog.isNew? '' : '/' + blog.id
   h3 Blog
   .row
-    form.col.s12(method="post", action=action, enctype="multipart/form-data", role="form")
+    form.col.s12(method="POST", action=action)
       input(type='hidden', name='_csrf', value=_csrf)
 
       - if (!blog.isNew)
@@ -27,11 +27,11 @@ block content
       .row
         .input-field.col.s12
           button.btn.waves-effect.waves-light(type='submit')
-            | Signup
+            | Criar
             i.material-icons.right send
 
 block scripts
   script(type='text/javascript').
     $(document).ready(function() {
-      $('.chips')..material_chip();
+      $('.chips').material_chip();
     })
