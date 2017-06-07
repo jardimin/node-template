@@ -16,7 +16,26 @@ const blogSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 /**
- * Password hash middleware.
+ * Validations
+ */
+
+blogSchema.path('title').validate({
+  isAsync: true,
+  validator(title, fn) {
+    const Blog = mongoose.model('Blog');
+
+    // Check only when it is a new user or when email field is modified
+    if (this.isNew || this.isModified('title')) {
+      Blog.find({ title }).exec((err, blog) => {
+        fn(!err && blog.length === 0);
+      });
+    } else fn(true);
+  },
+  message: 'Ja existe um blog com esse titulo.'
+});
+
+/**
+ * Urlize title.
  */
 blogSchema.pre('save', function save(next) {
   const blog = this;
